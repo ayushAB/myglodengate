@@ -15,4 +15,14 @@ class AuthService {
       return false;
     }
   }
+
+  Future<String?> getUserRole() async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return null;
+
+    final response =
+        await supabase.from('users').select('role').eq('id', user.id).single();
+
+    return response['role'] as String?;
+  }
 }

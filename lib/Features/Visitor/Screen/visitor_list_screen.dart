@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myglodengate/Core/Widgets/gradient_app_bar.dart';
+import 'package:myglodengate/Core/Widgets/gradient_scaffold.dart';
 import 'package:myglodengate/Features/Visitor/Model/visitor_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,6 +16,7 @@ class _VisitorListScreenState extends State<VisitorListScreen> {
   bool loading = true;
 
   Future<void> fetchVisitors() async {
+    print("called");
     final response = await Supabase.instance.client
         .from('visitors')
         .select()
@@ -41,8 +44,8 @@ class _VisitorListScreenState extends State<VisitorListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Visitor Approval')),
+    return GradientScaffold(
+      appBar: GradientAppBar(title: 'Visitor Approval'),
       body:
           loading
               ? const Center(child: CircularProgressIndicator())

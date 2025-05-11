@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myglodengate/Core/Theme/Gradients.dart';
+import 'package:myglodengate/Core/Utils/role_navigator.dart';
 import 'package:myglodengate/Core/Widgets/gradient_app_bar.dart';
 import 'package:myglodengate/Core/Widgets/gradient_scaffold.dart';
 import 'package:myglodengate/Features/Auth/Service/auth_service.dart';
@@ -28,18 +29,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final email = _emailController.text.trim();
     final password = _passwordController.text;
-    final success = await _authService.login(email, password);
 
+    final success = await _authService.login(email, password);
     if (!mounted) return;
 
     setState(() => _loading = false);
 
     if (success) {
-      // On successful login, navigate to the Dashboard using GoRouter
-      context.go('/dashboard'); // This will navigate to the DashboardScreen
+      await RoleNavigator.navigateUserBasedOnRole(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login failed. Please check your credentials.")),
+        const SnackBar(
+          content: Text("Login failed. Please check your credentials."),
+        ),
       );
     }
   }
@@ -148,6 +150,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     textStyle: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                   child: Text('Login'),
+                ),
+                TextButton(
+                  onPressed: () => context.go('/signup'),
+                  child: const Text("Don't have an account? Sign up"),
                 ),
               ],
             ),

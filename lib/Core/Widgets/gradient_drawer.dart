@@ -3,7 +3,7 @@ import '../theme/gradients.dart'; // Assuming your gradients are defined here
 import 'package:go_router/go_router.dart';
 
 class GradientDrawer extends StatelessWidget {
-  const GradientDrawer({Key? key}) : super(key: key);
+  const GradientDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
