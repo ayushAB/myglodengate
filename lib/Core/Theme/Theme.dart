@@ -1,39 +1,35 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const primaryColor = Color(0xFF005F73); // Teal Blue
-  static const secondaryColor = Color(0xFF94D2BD); // Light Green
-  static const backgroundColor = Color(0xFFF8F9FA); // Light background
-  static const errorColor = Color(0xFFB00020); // Red
+  // Professional, calm blue seed
+  static const seed = Color(0xFF2563EB); // Blue 600
 
   static ThemeData get lightTheme {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: seed,
+      brightness: Brightness.light,
+    );
+
     return ThemeData(
       useMaterial3: true,
-      primaryColor: primaryColor,
-      scaffoldBackgroundColor: backgroundColor,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        primary: primaryColor,
-        secondary: secondaryColor,
-        background: backgroundColor,
-        error: errorColor,
-        brightness: Brightness.light,
-      ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 2,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.background,
+      appBarTheme: AppBarTheme(
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
+        elevation: 0,
+        centerTitle: true,
       ),
       textTheme: const TextTheme(
-        headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        headlineLarge: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
         titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         bodyMedium: TextStyle(fontSize: 16),
-        bodySmall: TextStyle(fontSize: 14, color: Colors.grey),
+        bodySmall: TextStyle(fontSize: 14),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -42,11 +38,41 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: colorScheme.surface,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: primaryColor),
+          borderSide: BorderSide(color: colorScheme.primary),
           borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      cardTheme: CardTheme(
+        color: colorScheme.surface,
+        surfaceTintColor: colorScheme.surfaceTint,
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+    );
+  }
+
+  static ThemeData get darkTheme {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: seed,
+      brightness: Brightness.dark,
+    );
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.background,
+      appBarTheme: AppBarTheme(
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
+        elevation: 0,
+        centerTitle: true,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
         ),
       ),
     );

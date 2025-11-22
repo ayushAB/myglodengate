@@ -1,8 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Post notifications permission for Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Foreground service permissions for background realtime listening -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:label="myglodengate"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Foreground service for background realtime (Android 14+ requires a type) -->
+        <service
+            android:name="id.flutter.flutter_background_service.BackgroundService"
+            android:foregroundServiceType="dataSync"
+            android:stopWithTask="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

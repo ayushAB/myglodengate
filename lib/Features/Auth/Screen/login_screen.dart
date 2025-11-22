@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myglodengate/Core/Theme/Gradients.dart';
+import 'package:myglodengate/Core/Theme/design_system.dart';
 import 'package:myglodengate/Core/Utils/role_navigator.dart';
+import 'package:myglodengate/Core/Widgets/app_card.dart';
 import 'package:myglodengate/Core/Widgets/gradient_app_bar.dart';
 import 'package:myglodengate/Core/Widgets/gradient_scaffold.dart';
+import 'package:myglodengate/Core/Widgets/primary_button.dart';
 import 'package:myglodengate/Features/Auth/Service/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -49,113 +52,53 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-      appBar: const GradientAppBar(title: 'Login', showLogoutButton: false),
       body: Container(
-        decoration: BoxDecoration(gradient: AppGradients.primaryGradient),
+        decoration: const BoxDecoration(gradient: AppGradients.primaryGradient),
         child: Center(
-          // Centers the entire content vertically and horizontally
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, // Vertically center the content
-              crossAxisAlignment:
-                  CrossAxisAlignment.center, // Horizontally center the content
-              children: [
-                // Input Field for Email
-                TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(
-                      0.0,
-                    ), // Slight opacity on the background
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 2,
-                      ), // White border
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 2,
-                      ), // White border for enabled state
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 2,
-                      ), // White border for focused state
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 10.0,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 420),
+            child: AppCard(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Welcome',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      prefixIcon: Icon(Icons.email_outlined),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-
-                // Input Field for Password
-                // Input Field for Password
-                TextField(
-                  obscureText: true,
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(
-                      0.0,
-                    ), // Slight opacity on the background
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 2,
-                      ), // White border
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 2,
-                      ), // White border for enabled state
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 2,
-                      ), // White border for focused state
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 10.0,
+                  const SizedBox(height: AppSpacing.md),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: Icon(Icons.lock_outline),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-
-                // Login Button
-                ElevatedButton(
-                  onPressed: _loading ? null : _handleLogin,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 50.0,
-                    ),
-                    side: BorderSide(color: Colors.white, width: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    textStyle: TextStyle(fontSize: 18, color: Colors.white),
+                  const SizedBox(height: AppSpacing.lg),
+                  PrimaryButton(
+                    label: 'Login',
+                    loading: _loading,
+                    onPressed: _handleLogin,
+                    icon: Icons.login,
                   ),
-                  child: Text('Login'),
-                ),
-                TextButton(
-                  onPressed: () => context.go('/signup'),
-                  child: const Text("Don't have an account? Sign up"),
-                ),
-              ],
+                  const SizedBox(height: AppSpacing.sm),
+                  TextButton(
+                    onPressed: () => context.go('/signup'),
+                    child: const Text("Don't have an account? Sign up"),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

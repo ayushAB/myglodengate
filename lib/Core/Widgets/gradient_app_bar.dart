@@ -5,6 +5,7 @@ import '../theme/gradients.dart';
 
 class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final Widget? titleWidget;
   final List<Widget>? actions;
   final bool centerTitle;
   final Widget? leading;
@@ -14,6 +15,7 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
   const GradientAppBar({
     super.key,
     required this.title,
+    this.titleWidget,
     this.actions,
     this.centerTitle = true,
     this.leading,
@@ -26,10 +28,12 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
-        title,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-      ),
+      title:
+          titleWidget ??
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
       centerTitle: centerTitle,
       leading: leading,
       actions: [

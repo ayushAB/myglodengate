@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662007889209",
+    "project_id": "mygoldengate-b59f1",
+    "storage_bucket": "mygoldengate-b59f1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662007889209:android:8b0ff5a63176998d2d7ce8",
+        "android_client_info": {
+          "package_name": "com.example.myglodengate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGZIswdwSABxOeq3P6wpui1npEaVzXwps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

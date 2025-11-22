@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myglodengate/Core/Theme/design_system.dart';
+import 'package:myglodengate/Core/Widgets/app_card.dart';
 import 'package:myglodengate/Core/Widgets/gradient_app_bar.dart';
 import 'package:myglodengate/Core/Widgets/gradient_scaffold.dart';
 import 'package:myglodengate/Features/Visitor/Model/visitor_model.dart';
@@ -46,45 +48,113 @@ class _VisitorListScreenState extends State<VisitorListScreen> {
   Widget build(BuildContext context) {
     return GradientScaffold(
       appBar: GradientAppBar(title: 'Visitor Approval'),
-      body:
-          loading
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                itemCount: visitors.length,
-                itemBuilder: (_, i) {
-                  final v = visitors[i];
-                  return ListTile(
-                    title: Text(v.name),
-                    subtitle: Text(v.purpose),
-                    trailing:
-                        v.status == 'pending'
-                            ? Row(
-                              mainAxisSize: MainAxisSize.min,
+      body: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child:
+            loading
+                ? const Center(child: CircularProgressIndicator())
+                : visitors.isEmpty
+                ? const _EmptyState()
+                : ListView.separated(
+                  itemCount: visitors.length,
+                  separatorBuilder:
+                      (_, __) => const SizedBox(height: AppSpacing.md),
+                  itemBuilder: (_, i) {
+                    final v = visitors[i];
+                    return AppCard(
+                      padding: const EdgeInsets.all(AppSpacing.md),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.teal.withOpacity(0.12),
+                            child: const Icon(
+                              Icons.person_outline,
+                              color: Colors.teal,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed:
-                                      () =>
-                                          updateVisitorStatus(v.id, 'approved'),
+                                Text(
+                                  v.name,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                 ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.close,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed:
-                                      () =>
-                                          updateVisitorStatus(v.id, 'rejected'),
+                                const SizedBox(height: AppSpacing.xs),
+                                Text(
+                                  v.purpose,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ],
-                            )
-                            : Text(v.status),
-                  );
-                },
-              ),
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          if (v.status == 'pending') ...[
+                            IconButton(
+                              tooltip: 'Approve',
+                              icon: const Icon(
+                                Icons.check_circle_outline,
+                                color: Colors.green,
+                              ),
+                              onPressed:
+                                  () => updateVisitorStatus(v.id, 'approved'),
+                            ),
+                            IconButton(
+                              tooltip: 'Reject',
+                              icon: const Icon(
+                                Icons.cancel_outlined,
+                                color: Colors.red,
+                              ),
+                              onPressed:
+                                  () => updateVisitorStatus(v.id, 'rejected'),
+                            ),
+                          ] else
+                            Chip(
+                              label: Text(v.status.toUpperCase()),
+                              backgroundColor:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.primaryContainer,
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+      ),
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.inbox_outlined,
+            size: 48,
+            color: Theme.of(context).colorScheme.outline,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            'No visitors yet',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'New visitor requests will appear here.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
     );
   }
 }

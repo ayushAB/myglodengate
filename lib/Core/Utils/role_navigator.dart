@@ -11,9 +11,9 @@ class RoleNavigator {
     if (role == 'admin') {
       context.go('/dashboard');
     } else if (role == 'security') {
-      context.go('/resident/visitors');
+      context.go('/guard/dashboard');
     } else if (role == 'resident') {
-      context.go('/visitors');
+      context.go('/resident/dashboard');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Unknown role. Access denied.")),
